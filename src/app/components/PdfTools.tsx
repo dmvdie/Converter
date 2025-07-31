@@ -171,68 +171,87 @@ export default function PdfTools() {
   };
 
   return (
-    <div className="flex flex-row gap-8 mt-0">
+    <div className="flex flex-row gap-8 items-stretch w-full">
       {/* Split PDF Card */}
-      <div className="bg-white rounded-lg shadow p-6 flex flex-col gap-4 w-[360px] min-w-[360px] max-w-[360px] h-[540px]">
-        <h2 className="text-black font-semibold mb-2">Split PDF (Extract Page)</h2>
-        <form ref={splitFormRef} onSubmit={handleSplit} className="flex flex-col gap-3 flex-1">
-          <label
-            htmlFor="splitFile"
-            className={`block cursor-pointer border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition shadow-sm bg-white flex flex-col items-center justify-center ${splitFile ? "bg-emerald-100 border-emerald-400 text-emerald-700" : splitDragActive ? "text-slate-700" : "text-slate-700 hover:bg-slate-50"}`}
-            onDragOver={e => { e.preventDefault(); setSplitDragActive(true); }}
-            onDragLeave={e => { e.preventDefault(); setSplitDragActive(false); }}
-            onDrop={e => {
-              e.preventDefault();
-              setSplitDragActive(false);
-              if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-                setSplitFile(e.dataTransfer.files[0]);
-              }
-            }}
-          >
-            {splitFile ? (
-              <>
-                <span className="block text-base font-semibold mb-1">{splitFile.name}</span>
-                <span className="block text-xs text-green-500">File selected</span>
-              </>
-            ) : (
-              <>
-                <span className="block text-base font-semibold mb-1">Click or drag a PDF here</span>
-                <span className="block text-xs text-gray-400">PDF only (max 20MB)</span>
-              </>
-            )}
+      <div className="bg-white rounded-lg shadow p-6 flex flex-col gap-4 w-[360px] min-w-[360px] max-w-[360px] h-full">
+        {/* Header */}
+        <div className="mb-2">
+          <h2 className="text-black font-semibold">Split PDF (Extract Page)</h2>
+        </div>
+        {/* Body */}
+        <form ref={splitFormRef} onSubmit={handleSplit} encType="multipart/form-data">
+          {/* Loading indicator (match ImageConverter) */}
+          <div className={splitLoading ? "flex items-center gap-2 mb-2" : "hidden"}>
+            <span>Extracting...</span>
+            <span className="animate-spin inline-block w-4 h-4 border-2 border-teal-100 border-t-teal-400 rounded-full"></span>
+          </div>
+          {/* File input label */}
+          <label htmlFor="splitFile" className="block mb-2 font-medium">Select PDF:</label>
+          {/* File dropzone */}
+          <div className="mb-4">
+            <label
+              htmlFor="splitFile"
+              className={`block cursor-pointer border-2 border-dashed border-gray-300 rounded-lg p-8 w-[312px] h-[128px] text-center transition shadow-sm bg-white flex flex-col items-center justify-center ${splitFile ? "bg-emerald-100 border-emerald-400 text-emerald-700" : "text-slate-700 hover:bg-slate-50"}`}
+              onDragOver={e => { e.preventDefault(); setSplitDragActive(true); }}
+              onDragLeave={e => { e.preventDefault(); setSplitDragActive(false); }}
+              onDrop={e => {
+                e.preventDefault();
+                setSplitDragActive(false);
+                if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                  setSplitFile(e.dataTransfer.files[0]);
+                }
+              }}
+            >
+              {splitFile ? (
+                <>
+                  <span className="block text-base font-semibold mb-1">{splitFile.name}</span>
+                  <span className="block text-xs text-green-500">File selected</span>
+                </>
+              ) : (
+                <>
+                  <span className="block font-semibold text-lg text-slate-700 mb-1">Click or drag a PDF here</span>
+                  <span className="block text-xs text-gray-400">PDF only (max 20MB)</span>
+                </>
+              )}
+              <input
+                type="file"
+                id="splitFile"
+                name="splitFile"
+                accept="application/pdf"
+                required
+                className="hidden"
+                onChange={e => setSplitFile(e.target.files?.[0] || null)}
+              />
+            </label>
+          </div>
+          {/* Page number input (unique to Split PDF) */}
+          <div className="flex items-center gap-2 mb-4">
+            <label htmlFor="splitPage" className="font-medium mb-0 whitespace-nowrap">Page number:</label>
             <input
-              type="file"
-              id="splitFile"
-              accept="application/pdf"
-              required
-              className="hidden"
-              onChange={e => setSplitFile(e.target.files?.[0] || null)}
-            />
-          </label>
-          <label className="flex items-center gap-2">
-            <span className="text-sm">Page number:</span>
-            <input
+              id="splitPage"
               type="number"
               min={1}
               value={splitPage}
               onChange={e => setSplitPage(Number(e.target.value))}
-              className="border rounded px-2 py-1 w-20"
+              className="border rounded px-2 py-1 w-20 h-[37px]"
               required
             />
-          </label>
+          </div>
+          {/* Error message */}
           {splitError && <div className="text-red-600 text-xs mb-0">{splitError}</div>}
+          {/* Progress bar */}
           {splitLoading && (
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div className="bg-teal-400 h-2 rounded-full" style={{ width: `${splitProgress}%` }} />
-            </div>
+            <progress value={splitProgress} max={100} className="w-full mt-2" />
           )}
+          {/* Submit button */}
           <button
             type="submit"
             disabled={splitLoading}
-            className="mt-8 mb-0 w-full bg-[#D0E8C5] text-teal-900 rounded-md py-2 font-medium hover:bg-[#b8dcb0] transition"
+            className="mt-6 w-full bg-[#D0E8C5] text-teal-900 rounded-md py-2 font-medium hover:bg-[#b8dcb0] transition"
           >
-            {splitLoading ? `Extracting... (${splitProgress}%)` : "Extract Page"}
+            Extract Page
           </button>
+          {/* Download link */}
           {splitDownloadUrl && (
             <a
               href={splitDownloadUrl}
@@ -245,57 +264,74 @@ export default function PdfTools() {
         </form>
       </div>
       {/* Merge PDFs Card */}
-      <div className="bg-white rounded-lg shadow p-6 flex flex-col gap-4 w-[360px] min-w-[360px] max-w-[360px] h-[540px]">
-        <h2 className="text-black font-semibold mb-2">Merge PDFs</h2>
-        <form ref={mergeFormRef} onSubmit={handleMerge} className="flex flex-col gap-3 flex-1">
-          <label
-            htmlFor="mergeFiles"
-            className={`block cursor-pointer border-2 border-dashed border-gray-300 rounded-lg p-8 min-h-[156.8px] text-center transition shadow-sm bg-white flex flex-col items-center justify-center ${mergeFiles && mergeFiles.length >= 2 ? "bg-emerald-100 border-emerald-400 text-emerald-700" : mergeDragActive ? "text-slate-700" : "text-slate-700 hover:bg-slate-50"}`}
-            onDragOver={e => { e.preventDefault(); setMergeDragActive(true); }}
-            onDragLeave={e => { e.preventDefault(); setMergeDragActive(false); }}
-            onDrop={e => {
-              e.preventDefault();
-              setMergeDragActive(false);
-              if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-                setMergeFiles(e.dataTransfer.files);
-              }
-            }}
-          >
-            {mergeFiles && mergeFiles.length > 0 ? (
-              <>
-                <span className="block text-base font-semibold mb-1">{Array.from(mergeFiles).map(f => f.name).join(", ")}</span>
-                <span className="block text-xs text-green-500">{mergeFiles.length} file(s) selected</span>
-              </>
-            ) : (
-              <>
-                <span className="block text-base font-semibold mb-1">Click or drag PDFs here</span>
-                <span className="block text-xs text-gray-400">PDF only, select at least 2 (max 20MB each)</span>
-              </>
-            )}
-            <input
-              type="file"
-              id="mergeFiles"
-              accept="application/pdf"
-              multiple
-              required
-              className="hidden"
-              onChange={e => setMergeFiles(e.target.files)}
-            />
-          </label>
+      <div className="bg-white rounded-lg shadow p-6 flex flex-col gap-4 w-[360px] min-w-[360px] max-w-[360px] h-full">
+        {/* Header */}
+        <div className="mb-2">
+          <h2 className="text-black font-semibold">Merge PDFs</h2>
+        </div>
+        {/* Body */}
+        <form ref={mergeFormRef} onSubmit={handleMerge} encType="multipart/form-data">
+          {/* Loading indicator (match ImageConverter) */}
+          <div className={mergeLoading ? "flex items-center gap-2 mb-2" : "hidden"}>
+            <span>Merging...</span>
+            <span className="animate-spin inline-block w-4 h-4 border-2 border-teal-100 border-t-teal-400 rounded-full"></span>
+          </div>
+          {/* File input label */}
+          <label htmlFor="mergeFiles" className="block mb-2 font-medium">Select PDF files:</label>
+          {/* File dropzone */}
+          <div className="mb-4">
+            <label
+              htmlFor="mergeFiles"
+              className={`block cursor-pointer border-2 border-dashed border-gray-300 rounded-lg p-8 w-[312px] h-[128px] text-center transition shadow-sm bg-white flex flex-col items-center justify-center ${mergeFiles && mergeFiles.length >= 2 ? "bg-emerald-100 border-emerald-400 text-emerald-700" : "text-slate-700 hover:bg-slate-50"}`}
+              onDragOver={e => { e.preventDefault(); setMergeDragActive(true); }}
+              onDragLeave={e => { e.preventDefault(); setMergeDragActive(false); }}
+              onDrop={e => {
+                e.preventDefault();
+                setMergeDragActive(false);
+                if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                  setMergeFiles(e.dataTransfer.files);
+                }
+              }}
+            >
+              {mergeFiles && mergeFiles.length > 0 ? (
+                <>
+                  <span className="block text-base font-semibold mb-1">{Array.from(mergeFiles).map(f => f.name).join(", ")}</span>
+                  <span className="block text-xs text-green-500">{mergeFiles.length} file(s) selected</span>
+                </>
+              ) : (
+                <>
+                  <span className="block font-semibold text-lg text-slate-700 mb-1">Click or drag PDFs here</span>
+                  <span className="block text-xs text-gray-400">PDF only, select at least 2 (max 20MB each)</span>
+                </>
+              )}
+              <input
+                type="file"
+                id="mergeFiles"
+                name="mergeFiles"
+                accept="application/pdf"
+                multiple
+                required
+                className="hidden"
+                onChange={e => setMergeFiles(e.target.files)}
+              />
+            </label>
+            <div className="pb-[53px]"></div>
+          </div>
+          {/* Error message */}
           {mergeError && <div className="text-red-600 text-xs mb-0">{mergeError}</div>}
+          {/* Progress bar */}
           {mergeLoading && (
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div className="bg-teal-400 h-2 rounded-full" style={{ width: `${mergeProgress}%` }} />
-            </div>
+            <progress value={mergeProgress} max={100} className="w-full mt-2" />
           )}
-          {/* Removed flex-1 spacer to align button with Split PDF card */}
+          {/* Submit button */}
           <button
             type="submit"
             disabled={mergeLoading}
-            className="mt-8 mb-0 w-full bg-[#D0E8C5] text-teal-900 rounded-md py-2 font-medium hover:bg-[#b8dcb0] transition"
+            className="mt-6 w-full bg-[#D0E8C5] text-teal-900 rounded-md py-2 font-medium hover:bg-[#b8dcb0] transition"
           >
-            {mergeLoading ? `Merging... (${mergeProgress}%)` : "Merge PDFs"}
+            Merge PDFs
           </button>
+          {/* Download link */}
           {mergeDownloadUrl && (
             <a
               href={mergeDownloadUrl}

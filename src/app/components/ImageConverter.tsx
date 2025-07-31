@@ -123,16 +123,16 @@ export default function ImageConverter() {
             />
           </label>
         </div>
-        <label htmlFor="imageFormat" className="block mb-2 font-medium">
-          Convert to:
-        </label>
-        <div className="relative mb-4">
+        <div className="flex items-center gap-2 mb-4">
+          <label htmlFor="imageFormat" className="font-medium mb-0 whitespace-nowrap">
+            Convert to:
+          </label>
           <select
             id="imageFormat"
             name="imageFormat"
             required
             defaultValue="png"
-            className="block w-full py-2 px-3 pr-8 text-black border border-black rounded"
+            className="py-2 px-3 pr-8 text-black border border-black rounded w-36 min-w-0"
           >
             <option value="png">PNG</option>
             <option value="jpeg">JPEG</option>
