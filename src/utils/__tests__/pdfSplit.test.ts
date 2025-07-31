@@ -9,7 +9,7 @@ describe('PDF Split', () => {
     const pdf1 = await PDFDocument.create();
     pdf1.addPage();
     pdf1.addPage();
-    const pdf1Bytes = await pdf1.save();
+    // const pdf1Bytes = await pdf1.save(); // Unused, removed for lint
     const pdf2 = await PDFDocument.create();
     pdf2.addPage();
     pdf2.addPage();

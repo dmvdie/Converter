@@ -35,7 +35,7 @@ describe('PDF Merge', () => {
         ['x-forwarded-for', 'test'],
       ]),
       body: Readable.from(body),
-    } as any;
+    } as unknown as Request;
 
     const res = await POST(req);
     expect(res.status).toBe(200);

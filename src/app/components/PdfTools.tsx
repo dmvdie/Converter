@@ -76,7 +76,7 @@ export default function PdfTools() {
         setSplitDownloadUrl(url);
         setSplitDownloadName(filename);
       } else {
-        let errorMsg = "Failed to extract page.";
+        const errorMsg = "Failed to extract page.";
         try {
           const reader = new FileReader();
           reader.onload = () => {
@@ -119,7 +119,7 @@ export default function PdfTools() {
       }
     }
     const formData = new FormData();
-    Array.from(mergeFiles).forEach((file, idx) => {
+    Array.from(mergeFiles).forEach((file) => {
       formData.append("files", file, file.name);
     });
     const xhr = new XMLHttpRequest();
@@ -145,7 +145,7 @@ export default function PdfTools() {
         setMergeDownloadUrl(url);
         setMergeDownloadName(filename);
       } else {
-        let errorMsg = "Failed to merge PDFs.";
+        const errorMsg = "Failed to merge PDFs.";
         try {
           const reader = new FileReader();
           reader.onload = () => {
