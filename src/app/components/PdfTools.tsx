@@ -171,14 +171,14 @@ export default function PdfTools() {
   };
 
   return (
-    <div className="grid gap-8 md:grid-cols-2 mt-8">
+    <div className="flex flex-row gap-8 mt-0">
       {/* Split PDF Card */}
-      <div className="bg-white rounded-lg shadow p-6 flex flex-col gap-4">
+      <div className="bg-white rounded-lg shadow p-6 flex flex-col gap-4 w-[360px] min-w-[360px] max-w-[360px]">
         <h2 className="text-black font-semibold mb-2">Split PDF (Extract Page)</h2>
-        <form ref={splitFormRef} onSubmit={handleSplit} className="flex flex-col gap-3">
+        <form ref={splitFormRef} onSubmit={handleSplit} className="flex flex-col gap-3 flex-1">
           <label
             htmlFor="splitFile"
-            className={`block cursor-pointer border-2 border-dashed rounded-lg p-6 text-center transition ${splitFile ? "bg-green-50 border-green-400 text-green-700" : splitDragActive ? "bg-blue-100 border-blue-600 text-blue-700" : "text-blue-700 bg-blue-50 border-blue-400 hover:bg-blue-100"}`}
+            className={`block cursor-pointer border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition shadow-sm bg-white flex flex-col items-center justify-center ${splitFile ? "bg-emerald-100 border-emerald-400 text-emerald-700" : splitDragActive ? "text-slate-700" : "text-slate-700 hover:bg-slate-50"}`}
             onDragOver={e => { e.preventDefault(); setSplitDragActive(true); }}
             onDragLeave={e => { e.preventDefault(); setSplitDragActive(false); }}
             onDrop={e => {
@@ -197,7 +197,7 @@ export default function PdfTools() {
             ) : (
               <>
                 <span className="block text-base font-semibold mb-1">Click or drag a PDF here</span>
-                <span className="block text-xs text-blue-500">PDF only (max 20MB)</span>
+                <span className="block text-xs text-gray-400">PDF only (max 20MB)</span>
               </>
             )}
             <input
@@ -223,13 +223,13 @@ export default function PdfTools() {
           {splitError && <div className="text-red-600 text-xs mb-0">{splitError}</div>}
           {splitLoading && (
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${splitProgress}%` }} />
+              <div className="bg-teal-400 h-2 rounded-full" style={{ width: `${splitProgress}%` }} />
             </div>
           )}
           <button
             type="submit"
             disabled={splitLoading}
-            className="mt-2 w-full bg-blue-600 text-white rounded-md py-2 font-medium hover:bg-blue-800 transition"
+            className="mt-8 mb-0 w-full bg-[#D0E8C5] text-teal-900 rounded-md py-2 font-medium hover:bg-[#b8dcb0] transition"
           >
             {splitLoading ? `Extracting... (${splitProgress}%)` : "Extract Page"}
           </button>
@@ -237,7 +237,7 @@ export default function PdfTools() {
             <a
               href={splitDownloadUrl}
               download={splitDownloadName}
-              className="download-link block mt-2 bg-green-500 text-white text-center py-2 rounded-md font-medium hover:bg-green-700 transition"
+              className="download-link block mt-4 bg-[#D0E8C5] text-teal-900 text-center py-2 rounded-md font-medium hover:bg-[#b8dcb0] transition"
             >
               ⬇️ Download Extracted Page
             </a>
@@ -245,12 +245,12 @@ export default function PdfTools() {
         </form>
       </div>
       {/* Merge PDFs Card */}
-      <div className="bg-white rounded-lg shadow p-6 flex flex-col gap-4">
+      <div className="bg-white rounded-lg shadow p-6 flex flex-col gap-4 w-[360px] min-w-[360px] max-w-[360px]">
         <h2 className="text-black font-semibold mb-2">Merge PDFs</h2>
-        <form ref={mergeFormRef} onSubmit={handleMerge} className="flex flex-col gap-3">
+        <form ref={mergeFormRef} onSubmit={handleMerge} className="flex flex-col gap-3 flex-1">
           <label
             htmlFor="mergeFiles"
-            className={`block cursor-pointer border-2 border-dashed rounded-lg p-6 text-center transition ${mergeFiles && mergeFiles.length >= 2 ? "bg-green-50 border-green-400 text-green-700" : mergeDragActive ? "bg-blue-100 border-blue-600 text-blue-700" : "text-blue-700 bg-blue-50 border-blue-400 hover:bg-blue-100"}`}
+            className={`block cursor-pointer border-2 border-dashed border-gray-300 rounded-lg p-8 min-h-[156.8px] text-center transition shadow-sm bg-white flex flex-col items-center justify-center ${mergeFiles && mergeFiles.length >= 2 ? "bg-emerald-100 border-emerald-400 text-emerald-700" : mergeDragActive ? "text-slate-700" : "text-slate-700 hover:bg-slate-50"}`}
             onDragOver={e => { e.preventDefault(); setMergeDragActive(true); }}
             onDragLeave={e => { e.preventDefault(); setMergeDragActive(false); }}
             onDrop={e => {
@@ -264,12 +264,12 @@ export default function PdfTools() {
             {mergeFiles && mergeFiles.length > 0 ? (
               <>
                 <span className="block text-base font-semibold mb-1">{Array.from(mergeFiles).map(f => f.name).join(", ")}</span>
-                <span className="block text-xs text-blue-500">{mergeFiles.length} file(s) selected</span>
+                <span className="block text-xs text-green-500">{mergeFiles.length} file(s) selected</span>
               </>
             ) : (
               <>
                 <span className="block text-base font-semibold mb-1">Click or drag PDFs here</span>
-                <span className="block text-xs text-blue-500">PDF only, select at least 2 (max 20MB each)</span>
+                <span className="block text-xs text-gray-400">PDF only, select at least 2 (max 20MB each)</span>
               </>
             )}
             <input
@@ -285,13 +285,14 @@ export default function PdfTools() {
           {mergeError && <div className="text-red-600 text-xs mb-0">{mergeError}</div>}
           {mergeLoading && (
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${mergeProgress}%` }} />
+              <div className="bg-teal-400 h-2 rounded-full" style={{ width: `${mergeProgress}%` }} />
             </div>
           )}
+          {/* Removed flex-1 spacer to align button with Split PDF card */}
           <button
             type="submit"
             disabled={mergeLoading}
-            className="mt-2 w-full bg-blue-600 text-white rounded-md py-2 font-medium hover:bg-blue-800 transition"
+            className="mt-8 mb-0 w-full bg-[#D0E8C5] text-teal-900 rounded-md py-2 font-medium hover:bg-[#b8dcb0] transition"
           >
             {mergeLoading ? `Merging... (${mergeProgress}%)` : "Merge PDFs"}
           </button>
@@ -299,7 +300,7 @@ export default function PdfTools() {
             <a
               href={mergeDownloadUrl}
               download={mergeDownloadName}
-              className="download-link block mt-2 bg-green-500 text-white text-center py-2 rounded-md font-medium hover:bg-green-700 transition"
+              className="download-link block mt-4 bg-[#D0E8C5] text-teal-900 text-center py-2 rounded-md font-medium hover:bg-[#b8dcb0] transition"
             >
               ⬇️ Download merged PDF
             </a>

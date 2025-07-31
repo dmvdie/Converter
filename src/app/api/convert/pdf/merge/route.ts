@@ -1,22 +1,10 @@
 
-import { Readable } from "stream";
-// Helper to convert Web ReadableStream to Node.js Readable
-function webStreamToNode(stream: ReadableStream<Uint8Array>): Readable {
-  const reader = stream.getReader();
-  return new Readable({
-    async read() {
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        this.push(Buffer.from(value));
-      }
-      this.push(null);
-    },
-  });
-}
+// No need for webStreamToNode in Node.js runtime
+
 import { NextResponse } from "next/server";
 import Busboy from "busboy";
 import { PDFDocument } from "pdf-lib";
+import { webStreamToNode } from "./webStreamToNode";
 
 export const runtime = "nodejs";
 
@@ -79,7 +67,7 @@ export async function POST(req: Request): Promise<Response> {
       }
     });
 
-    const nodeStream = webStreamToNode(req.body as ReadableStream<Uint8Array>);
-    nodeStream.pipe(busboy);
+    // Convert web ReadableStream to Node.js Readable for Busboy
+    webStreamToNode(req.body as ReadableStream<Uint8Array>).pipe(busboy);
   });
 }

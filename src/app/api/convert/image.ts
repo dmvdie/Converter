@@ -84,7 +84,7 @@ export async function POST(req: Request): Promise<Response> {
         converted = await sharp(fileBuffer)
           .toFormat(format as keyof sharp.FormatEnum)
           .toBuffer();
-      } catch (e) {
+      } catch {
         return resolve(NextResponse.json({ error: "Conversion failed" }, { status: 500 }));
       }
       const filename = `converted.${format}`;

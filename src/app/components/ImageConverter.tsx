@@ -72,14 +72,12 @@ export default function ImageConverter() {
   };
 
   return (
-    <div className="converter-box bg-white border border-gray-200 rounded-xl shadow-md p-8 flex-1 min-w-[320px] max-w-[400px]">
-      <h2 className="text-black font-semibold text-lg mb-4">
-        Image Converter
-      </h2>
+    <div className="bg-white rounded-lg shadow p-6 flex flex-col gap-4">
+      <h2 className="text-black font-semibold mb-2">Image Converter</h2>
       <form ref={formRef} onSubmit={handleSubmit} encType="multipart/form-data">
         <div className={loading ? "flex items-center gap-2 mb-2" : "hidden"}>
           <span>Converting...</span>
-          <span className="animate-spin inline-block w-4 h-4 border-2 border-blue-200 border-t-blue-600 rounded-full"></span>
+          <span className="animate-spin inline-block w-4 h-4 border-2 border-teal-100 border-t-teal-400 rounded-full"></span>
         </div>
         <label htmlFor="imageFile" className="block mb-2 font-medium">
           Select image:
@@ -87,7 +85,7 @@ export default function ImageConverter() {
         <div className="mb-4">
           <label
             htmlFor="imageFile"
-            className={`block cursor-pointer border-2 border-dashed border-blue-400 rounded-lg p-6 text-center transition ${selectedFile ? "bg-green-50 border-green-400 text-green-700" : "text-blue-700 bg-blue-50 hover:bg-blue-100"}`}
+            className={`block cursor-pointer border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition shadow-sm bg-white flex flex-col items-center justify-center ${selectedFile ? "bg-emerald-100 border-emerald-400 text-emerald-700" : "text-slate-700 hover:bg-slate-50"}`}
           >
             {selectedFile ? (
               <>
@@ -103,7 +101,7 @@ export default function ImageConverter() {
                 <span className="block text-base font-semibold mb-1">
                   Click or drag an image here
                 </span>
-                <span className="block text-xs text-blue-500">
+                <span className="block text-xs text-gray-400">
                   PNG, JPEG, WEBP, TIFF, GIF, AVIF (max 10MB)
                 </span>
               </>
@@ -134,7 +132,7 @@ export default function ImageConverter() {
             name="imageFormat"
             required
             defaultValue="png"
-            className="block w-full appearance-none bg-white border border-blue-300 rounded-md py-2 px-3 pr-8 text-blue-700 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="block w-full py-2 px-3 pr-8 text-black border border-black rounded"
           >
             <option value="png">PNG</option>
             <option value="jpeg">JPEG</option>
@@ -143,16 +141,13 @@ export default function ImageConverter() {
             <option value="gif">GIF</option>
             <option value="avif">AVIF</option>
           </select>
-          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-blue-400">
-            ▼
-          </span>
         </div>
         {loading && (
           <progress value={progress} max={100} className="w-full mt-2" />
         )}
         <button
           type="submit"
-          className="mt-6 w-full bg-blue-600 text-white rounded-md py-2 font-medium hover:bg-blue-800 transition"
+          className="mt-6 w-full bg-[#D0E8C5] text-teal-900 rounded-md py-2 font-medium hover:bg-[#b8dcb0] transition"
         >
           Convert Image
         </button>
@@ -161,7 +156,7 @@ export default function ImageConverter() {
         <a
           href={downloadUrl}
           download={downloadName}
-          className="download-link block mt-4 bg-green-500 text-white text-center py-2 rounded-md font-medium hover:bg-green-700 transition"
+          className="download-link block mt-4 bg-[#D0E8C5] text-teal-900 text-center py-2 rounded-md font-medium hover:bg-[#b8dcb0] transition"
         >
           ⬇️ Download Converted Image
         </a>
