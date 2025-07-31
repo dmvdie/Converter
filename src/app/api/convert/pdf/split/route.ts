@@ -1,12 +1,12 @@
 import { Readable } from "stream";
 // Helper to convert Web ReadableStream to Node.js Readable
-function webStreamToNode(stream: any): Readable {
+function webStreamToNode(stream: ReadableStream<Uint8Array> | NodeJS.ReadableStream): Readable {
   // If it's already a Node.js Readable, return as is
-  if (stream && typeof stream.pipe === 'function' && typeof stream.read === 'function') {
-    return stream;
+  if (stream && typeof (stream as NodeJS.ReadableStream).pipe === 'function' && typeof (stream as NodeJS.ReadableStream).read === 'function') {
+    return stream as Readable;
   }
   // Otherwise, treat as Web ReadableStream
-  const reader = stream.getReader();
+  const reader = (stream as ReadableStream<Uint8Array>).getReader();
   return new Readable({
     async read() {
       while (true) {

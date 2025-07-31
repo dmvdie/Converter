@@ -119,7 +119,7 @@ export default function PdfTools() {
       }
     }
     const formData = new FormData();
-    Array.from(mergeFiles).forEach((file) => {
+        Array.from(mergeFiles).forEach((file) => {
       formData.append("files", file, file.name);
     });
     const xhr = new XMLHttpRequest();
