@@ -14,7 +14,7 @@ export default function Home() {
       </header>
       <div className="container-flex flex flex-col md:flex-row gap-10 justify-center items-start max-w-3xl mx-auto mt-10">
         <ImageConverter />
-        <PdfConverter />
+        {/* <PdfConverter /> */}
       </div>
       <div className="max-w-3xl mx-auto mt-10">
         <PdfTools />
