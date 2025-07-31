@@ -1,0 +1,38 @@
+{
+  "name": "converter_next",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "CLEAN": "node clean.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@types/formidable": "^3.4.5",
+    "busboy": "^1.6.0",
+    "formidable": "^3.5.4",
+    "next": "15.4.3",
+    "pdf-lib": "^1.17.1",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "sharp": "^0.34.3"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/busboy": "^1.5.4",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.4.3",
+    "jest": "^30.0.5",
+    "tailwindcss": "^4",
+    "ts-jest": "^29.4.0",
+    "typescript": "^5"
+  }
+}
