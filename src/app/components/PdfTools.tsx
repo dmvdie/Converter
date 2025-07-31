@@ -173,7 +173,7 @@ export default function PdfTools() {
   return (
     <div className="flex flex-row gap-8 mt-0">
       {/* Split PDF Card */}
-      <div className="bg-white rounded-lg shadow p-6 flex flex-col gap-4 w-[360px] min-w-[360px] max-w-[360px]">
+      <div className="bg-white rounded-lg shadow p-6 flex flex-col gap-4 w-[360px] min-w-[360px] max-w-[360px] h-[540px]">
         <h2 className="text-black font-semibold mb-2">Split PDF (Extract Page)</h2>
         <form ref={splitFormRef} onSubmit={handleSplit} className="flex flex-col gap-3 flex-1">
           <label
@@ -245,7 +245,7 @@ export default function PdfTools() {
         </form>
       </div>
       {/* Merge PDFs Card */}
-      <div className="bg-white rounded-lg shadow p-6 flex flex-col gap-4 w-[360px] min-w-[360px] max-w-[360px]">
+      <div className="bg-white rounded-lg shadow p-6 flex flex-col gap-4 w-[360px] min-w-[360px] max-w-[360px] h-[540px]">
         <h2 className="text-black font-semibold mb-2">Merge PDFs</h2>
         <form ref={mergeFormRef} onSubmit={handleMerge} className="flex flex-col gap-3 flex-1">
           <label
