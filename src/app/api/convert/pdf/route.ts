@@ -88,9 +88,9 @@ export async function POST(req: Request): Promise<Response> {
         log(`Magic number validation failed for fileExt: ${fileExt}`);
         return resolve(NextResponse.json({ error: "File content does not match its extension (magic number validation failed)." }, { status: 400 }));
       }
-      // Save to temp file
-      const tempDir = path.join(process.cwd(), "tmp");
-      await fs.mkdir(tempDir, { recursive: true });
+      // Save to temp file in /tmp for Vercel compatibility
+      const tempDir = "/tmp";
+      // No need to mkdir /tmp, it always exists in serverless
       const inputPath = path.join(tempDir, `input_${Date.now()}`);
       const outputPath = `${inputPath}.pdf`;
       await fs.writeFile(inputPath, fileBuffer);
